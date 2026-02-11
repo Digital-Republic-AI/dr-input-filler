@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "dr-input-filler",
+  "version": "2.0.0",
+  "description": "Preencha campos de texto com dados fake (CPF, Email, Nome, Lorem Ipsum) via menu de contexto",
+  "icons": {
+    "16": "images/icon-16.png",
+    "48": "images/icon-48.png",
+    "128": "images/icon-128.png"
+  },
+  "permissions": [
+    "contextMenus",
+    "scripting",
+    "activeTab",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*/*",
+        "http://*/*"
+      ],
+      "js": [
+        "utils.js",
+        "content.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "dr-input-filler"
+  },
+  "options_page": "options.html"
+}

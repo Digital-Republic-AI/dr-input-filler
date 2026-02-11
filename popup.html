@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <h1>dr-input-filler</h1>
+
+    <div class="info">
+      <p>Clique com o botão direito em um campo de texto para preenchê-lo com dados fake.</p>
+    </div>
+
+    <div class="control-group">
+      <label for="typeSelect">Tipo de dado:</label>
+      <select id="typeSelect">
+        <option value="fillCPF">CPF</option>
+        <option value="fillEmail">Email</option>
+        <option value="fillName">Nome</option>
+        <option value="fillLorem">Lorem Ipsum</option>
+      </select>
+
+      <button id="generateBtn">Gerar</button>
+      <div id="dataDisplay" class="data-display"></div>
+    </div>
+
+    <div class="footer">
+      <a href="options.html" target="_blank">Configurações</a>
+    </div>
+  </div>
+
+  <script src="utils.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
