@@ -1,124 +1,92 @@
 # dr-input-filler - Guia de Uso
 
-## 📋 Descrição
+## Descricao
 
-**dr-input-filler** é uma extensão Chrome que permite preencher campos de texto com CPF válido de forma rápida e fácil, usando apenas o menu de contexto (clique direito).
+**dr-input-filler** e uma extensao Chrome (Manifest V3) para preenchimento automatico de campos editaveis com dados fake brasileiros. Suporta geracao de CPF valido, Email, Nome de pessoa e Lorem Ipsum via context menu ou popup.
 
-## 🚀 Como Usar
+## Instalacao
 
-### Instalação
+1. Acesse `chrome://extensions/`
+2. Habilite **Developer mode**
+3. Selecione **Load unpacked** e aponte para o diretorio raiz do projeto
+4. A extensao sera registrada e o icone exibido na toolbar do Chrome
 
-1. Abra o Chrome e vá para `chrome://extensions/`
-2. Ative o "Modo de desenvolvedor" (canto superior direito)
-3. Clique em "Carregar extensão não empacotada"
-4. Selecione a pasta da extensão (`dr-input-filler`)
-5. A extensão aparecerá na barra de ferramentas do Chrome
+## Utilizacao
 
-### Preenchimento de CPF
+### Context Menu (clique direito)
 
-1. **Clique em um campo de texto** (input ou textarea) em qualquer página web
-2. **Clique com o botão direito** no campo
-3. **Selecione "Preencher com CPF válido"** no menu de contexto
-4. Um CPF válido será gerado e preenchido automaticamente
-5. Uma notificação confirmará a ação
+1. Foque em um elemento editavel (`<input>`, `<textarea>` ou `contenteditable`)
+2. Acione o context menu (botao direito)
+3. Navegue ate **dr-input-filler** e selecione o tipo de dado:
+   - **CPF valido** - Gera CPF com digitos verificadores (algoritmo modulo-11)
+   - **Email** - Combina nome aleatorio + numero + dominio ficticio
+   - **Nome de pessoa** - Nome completo brasileiro aleatorio
+   - **Lorem Ipsum** - Sentencas aleatorias do banco classico de palavras
+4. O valor e inserido no campo, eventos `input` e `change` sao disparados
 
-## ⚙️ Configurações
+### Popup
 
-Acesse as configurações da extensão para personalizar:
+1. Clique no icone da extensao na toolbar
+2. Selecione o tipo de dado no `<select>`
+3. O valor e gerado automaticamente e copiado para o clipboard
+4. Clique em **Gerar** para regenerar
 
-- **Formato do CPF**: Escolha entre formatado (XXX.XXX.XXX-XX) ou sem formatação
-- **Mostrar notificação**: Ative/desative a notificação ao preencher
-- **Copiar para área de transferência**: Copie automaticamente o CPF gerado
+### Pagina de Configuracoes
 
-### Como acessar as configurações
+Acesse via: icone da extensao (botao direito) > **Opcoes**, ou `chrome://extensions/` > dr-input-filler > Detalhes > Opcoes da extensao.
 
-1. Clique no ícone da extensão na barra de ferramentas
-2. Clique em "Configurações" no rodapé do popup
-3. Ou acesse `chrome://extensions/` → dr-input-filler → Detalhes → Opções
+**Configuracoes globais:**
+- Notificacao toast apos preenchimento (on/off)
+- Copia automatica para clipboard (on/off)
 
-## 🎯 Funcionalidades
+**Configuracoes por tipo:**
+- **CPF**: formato com mascara (`XXX.XXX.XXX-XX`) ou apenas digitos
+- **Nome**: nome completo, somente primeiro nome ou somente sobrenome
+- **Lorem Ipsum**: quantidade de sentencas (1 a 5)
 
-- ✅ Geração de CPF válido com dígitos verificadores corretos
-- ✅ Menu de contexto integrado (clique direito)
-- ✅ Formatação automática (XXX.XXX.XXX-XX)
-- ✅ Notificação visual ao preencher
-- ✅ Popup com gerador de CPF
-- ✅ Configurações personalizáveis
-- ✅ Funciona em qualquer página web
+Todas as preferencias sao persistidas via `chrome.storage.sync`.
 
-## 🔒 Segurança
+## Arquitetura de Comunicacao
 
-- A extensão **não coleta dados pessoais**
-- Os CPF gerados são **aleatórios e válidos matematicamente**
-- Nenhuma informação é enviada para servidores externos
-- Funciona completamente **offline**
+```
+context menu click
+  -> background.js (service worker)
+  -> chrome.tabs.sendMessage({action: "fill", type})
+  -> content.js
+  -> chrome.storage.sync.get() (carrega settings)
+  -> Generator.generate() (gera valor conforme tipo)
+  -> element.value = valor + dispatchEvent(input/change)
+```
 
-## 📝 Exemplos de Uso
+Caso o content script nao esteja carregado na tab (extensao recarregada sem refresh da pagina), o `background.js` injeta os scripts via `chrome.scripting.executeScript` como fallback e reenvia a mensagem.
 
-### Preenchimento em Formulários
+## Geradores (utils.js)
 
-1. Abra um formulário com campo de CPF
-2. Clique no campo de CPF
-3. Clique direito e selecione "Preencher com CPF válido"
-4. O campo será preenchido automaticamente
+| Classe | Metodo | Descricao |
+|---|---|---|
+| `CPFGenerator` | `generateValidCPF()` | 9 digitos aleatorios + 2 verificadores (modulo-11) |
+| `CPFGenerator` | `formatCPF(cpf)` | Aplica mascara `XXX.XXX.XXX-XX` |
+| `CPFGenerator` | `validateCPF(cpf)` | Valida CPF pelo algoritmo reverso |
+| `EmailGenerator` | `generate()` | `nome.sobrenome{N}@dominio` |
+| `PersonNameGenerator` | `generate(format)` | Retorna full, first ou last name |
+| `LoremIpsumGenerator` | `generate(sentences)` | N sentencas de 6-14 palavras |
 
-### Geração Rápida
+## Seguranca e Privacidade
 
-1. Clique no ícone da extensão na barra de ferramentas
-2. Clique em "Gerar CPF"
-3. O CPF será exibido e copiado para a área de transferência
-4. Cole em qualquer lugar
+- Nenhum dado e transmitido para servidores externos
+- Toda a geracao ocorre client-side no contexto da extensao
+- Permissoes utilizadas: `contextMenus`, `scripting`, `activeTab`, `storage`
+- Os dados gerados sao aleatorios e nao correspondem a registros reais
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
-### A extensão não aparece no menu de contexto
+| Sintoma | Causa provavel | Solucao |
+|---|---|---|
+| Submenu nao aparece no context menu | Elemento focado nao e editavel | Focar em `<input>`, `<textarea>` ou `contenteditable` |
+| Campo nao e preenchido | Content script nao carregado | Recarregar a pagina ou a extensao em `chrome://extensions/` |
+| Notificacao nao exibida | Setting desabilitado | Verificar em Opcoes > Mostrar notificacao |
+| Erro "Receiving end does not exist" | Tab aberta antes da instalacao | Recarregar a pagina (o fallback de inject resolve automaticamente) |
 
-- Verifique se você clicou em um campo de texto (input ou textarea)
-- Recarregue a página (F5)
-- Recarregue a extensão em `chrome://extensions/`
+## Versao
 
-### O CPF não está sendo preenchido
-
-- Certifique-se de que o campo está focado (clique nele primeiro)
-- Verifique se o campo não tem JavaScript que impede a alteração
-- Tente em outra página
-
-### A notificação não aparece
-
-- Verifique as configurações (deve estar ativada por padrão)
-- Certifique-se de que a extensão tem permissão para exibir notificações
-
-## 📊 Validação de CPF
-
-A extensão gera CPF válido seguindo o algoritmo oficial:
-
-- 11 dígitos no total
-- Primeiros 9 dígitos aleatórios
-- 10º dígito: primeiro dígito verificador
-- 11º dígito: segundo dígito verificador
-
-Os CPF gerados são **válidos matematicamente** mas **fictícios** (não correspondem a pessoas reais).
-
-## 🔄 Atualizações
-
-Verifique periodicamente se há atualizações disponíveis em `chrome://extensions/`.
-
-## 📧 Suporte
-
-Para reportar bugs ou sugerir melhorias, considere:
-
-1. Verificar se o problema já foi resolvido em uma versão mais recente
-2. Desabilitar outras extensões para verificar conflitos
-3. Limpar cache do navegador
-
-## 📜 Licença
-
-Esta extensão é fornecida como está, para fins educacionais e de desenvolvimento.
-
-## ✨ Versão
-
-**dr-input-filler v1.0.0**
-
----
-
-**Aproveite a extensão! 🎉**
+**dr-input-filler v2.0.0**
