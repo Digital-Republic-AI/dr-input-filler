@@ -9,8 +9,11 @@ console.log(`%c ${APP_NAME}`, 'background: #367838; color: white; border-radius:
 
 const MENU_ITEMS = [
   { id: DATA_TYPES.FILL_CPF, title: "CPF valido" },
+  { id: DATA_TYPES.FILL_CNPJ, title: "CNPJ valido" },
+  { id: DATA_TYPES.FILL_RG, title: "RG" },
   { id: DATA_TYPES.FILL_EMAIL, title: "Email" },
   { id: DATA_TYPES.FILL_NAME, title: "Nome de pessoa" },
+  { id: DATA_TYPES.FILL_CELULAR, title: "Celular" },
   { id: DATA_TYPES.FILL_LOREM, title: "Lorem Ipsum" },
 ];
 

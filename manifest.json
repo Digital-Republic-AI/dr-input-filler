@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "dr-input-filler",
-  "version": "2.0.0",
-  "description": "Preencha campos de texto com dados fake (CPF, Email, Nome, Lorem Ipsum) via menu de contexto",
+  "version": "2.1.0",
+  "description": "Preencha campos de texto com dados fake (CPF, CNPJ, RG, Email, Nome, Celular, Lorem Ipsum) via menu de contexto",
   "icons": {
     "16": "images/icon-16.png",
     "48": "images/icon-48.png",

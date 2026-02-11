@@ -1,6 +1,6 @@
 # dr-input-filler
 
-Extensão Chrome (Manifest V3) para preencher campos de texto com dados fake brasileiros. Gera e insere CPF válido, Email, Nome de pessoa e Lorem Ipsum diretamente em campos de formulário via menu de contexto ou popup da extensão. Ideal para testes de formulários, QA e desenvolvimento frontend.
+Extensão Chrome (Manifest V3) para preencher campos de texto com dados fake brasileiros. Gera e insere CPF, CNPJ, RG, Email, Nome de pessoa, Celular e Lorem Ipsum diretamente em campos de formulário via menu de contexto ou popup da extensão. Ideal para testes de formulários, QA e desenvolvimento frontend.
 
 ---
 
@@ -10,6 +10,15 @@ Extensão Chrome (Manifest V3) para preencher campos de texto com dados fake bra
   - Geração de CPF com dígitos verificadores calculados pelo algoritmo módulo-11
   - Opção de formato com máscara (XXX.XXX.XXX-XX) ou apenas dígitos
 
+- **CNPJ Válido**
+  - Geração de CNPJ com dígitos verificadores calculados pelo algoritmo módulo-11
+  - Filial padrão 0001
+  - Opção de formato com máscara (XX.XXX.XXX/XXXX-XX) ou apenas dígitos
+
+- **RG**
+  - Geração de RG com 8 dígitos aleatórios e dígito verificador calculado
+  - Opção de formato com máscara (XX.XXX.XXX-X) ou apenas dígitos
+
 - **Email Fake**
   - Combinação de nomes brasileiros aleatórios com domínios fictícios
   - Formato realista (ex: `joao.silva42@email.com`)
@@ -18,12 +27,17 @@ Extensão Chrome (Manifest V3) para preencher campos de texto com dados fake bra
   - Nomes e sobrenomes brasileiros aleatórios (~30 opções cada)
   - Formato configurável: nome completo, somente primeiro nome ou somente sobrenome
 
+- **Celular**
+  - Geração de número de celular com DDDs brasileiros válidos
+  - Prefixo 9 obrigatório para celulares
+  - Opção de formato com máscara ((XX) 9XXXX-XXXX) ou apenas dígitos
+
 - **Lorem Ipsum**
   - Sentenças aleatórias montadas a partir de banco de palavras clássico
   - Quantidade de sentenças configurável (1 a 5)
 
 - **Menu de Contexto**
-  - Submenu agrupado "dr-input-filler" com 4 opções ao clicar com botão direito em campos editáveis
+  - Submenu agrupado "dr-input-filler" com 7 opções ao clicar com botão direito em campos editáveis
 
 - **Popup**
   - Seletor de tipo de dado, geração instantânea e cópia automática para clipboard
@@ -69,7 +83,7 @@ cd dr-input-filler
 **Via menu de contexto:**
 1. Clique em um campo de texto em qualquer página
 2. Clique com o botão direito
-3. Selecione **"dr-input-filler"** e escolha o tipo de dado (CPF, Email, Nome ou Lorem Ipsum)
+3. Selecione **"dr-input-filler"** e escolha o tipo de dado (CPF, CNPJ, RG, Email, Nome, Celular ou Lorem Ipsum)
 
 **Via popup:**
 1. Clique no ícone da extensão na barra do Chrome
@@ -96,7 +110,7 @@ dr-input-filler/
   manifest.json             # Configuração da extensão (Manifest V3)
   background.js             # Service worker - menu de contexto e roteamento de mensagens
   content.js                # Content script - preenchimento de campos e notificações
-  utils.js                  # Classes geradoras (CPF, Email, Nome, Lorem) e constantes
+  utils.js                  # Classes geradoras (CPF, CNPJ, RG, Email, Nome, Celular, Lorem) e constantes
   popup.html                # Interface do popup
   popup.js                  # Lógica do popup - geração e clipboard
   popup.css                 # Estilos do popup

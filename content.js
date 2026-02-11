@@ -9,8 +9,20 @@ function generateValue(type, settings) {
       const cpf = CPFGenerator.generateValidCPF();
       return settings.cpf.format === 'formatted' ? CPFGenerator.formatCPF(cpf) : cpf;
     },
+    [DATA_TYPES.FILL_CNPJ]: () => {
+      const cnpj = CNPJGenerator.generateValidCNPJ();
+      return settings.cnpj.format === 'formatted' ? CNPJGenerator.formatCNPJ(cnpj) : cnpj;
+    },
+    [DATA_TYPES.FILL_RG]: () => {
+      const rg = RGGenerator.generateRG();
+      return settings.rg.format === 'formatted' ? RGGenerator.formatRG(rg) : rg;
+    },
     [DATA_TYPES.FILL_EMAIL]: () => EmailGenerator.generate(),
     [DATA_TYPES.FILL_NAME]: () => PersonNameGenerator.generate(settings.name.format),
+    [DATA_TYPES.FILL_CELULAR]: () => {
+      const celular = CelularGenerator.generate();
+      return settings.celular.format === 'formatted' ? CelularGenerator.formatCelular(celular) : celular;
+    },
     [DATA_TYPES.FILL_LOREM]: () => LoremIpsumGenerator.generate(settings.lorem.sentences),
   };
 

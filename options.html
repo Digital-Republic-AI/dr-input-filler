@@ -30,6 +30,26 @@
     </select>
   </div>
 
+  <h2>CNPJ</h2>
+
+  <div class="option-group">
+    <label for="cnpjFormatOption">Formato do CNPJ:</label>
+    <select id="cnpjFormatOption">
+      <option value="formatted">Formatado (XX.XXX.XXX/XXXX-XX)</option>
+      <option value="unformatted">Sem formatação (XXXXXXXXXXXXXX)</option>
+    </select>
+  </div>
+
+  <h2>RG</h2>
+
+  <div class="option-group">
+    <label for="rgFormatOption">Formato do RG:</label>
+    <select id="rgFormatOption">
+      <option value="formatted">Formatado (XX.XXX.XXX-X)</option>
+      <option value="unformatted">Sem formatação (XXXXXXXXX)</option>
+    </select>
+  </div>
+
   <h2>Nome</h2>
 
   <div class="option-group">
@@ -38,6 +58,16 @@
       <option value="full">Nome completo</option>
       <option value="first">Somente primeiro nome</option>
       <option value="last">Somente sobrenome</option>
+    </select>
+  </div>
+
+  <h2>Celular</h2>
+
+  <div class="option-group">
+    <label for="celularFormatOption">Formato do celular:</label>
+    <select id="celularFormatOption">
+      <option value="formatted">Formatado ((XX) 9XXXX-XXXX)</option>
+      <option value="unformatted">Sem formatação (XX9XXXXXXXX)</option>
     </select>
   </div>
 
@@ -63,7 +93,7 @@
 
   <div class="info">
     <h2>Sobre</h2>
-    <p>dr-input-filler preenche campos de texto com dados fake: CPF, Email, Nome e Lorem Ipsum.</p>
+    <p>dr-input-filler preenche campos de texto com dados fake: CPF, CNPJ, RG, Email, Nome, Celular e Lorem Ipsum.</p>
     <p><strong>Como usar:</strong></p>
     <ol>
       <li>Clique em um campo de texto</li>
