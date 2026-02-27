@@ -23,9 +23,11 @@ node_modules/
 .env
 .env.local
 
-# IDE
+# IDE e ferramentas
 .vscode/
 .idea/
+.claude/
+.cursor/
 *.swp
 *.swo
 *~
